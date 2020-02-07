@@ -5,4 +5,4 @@ X-KDE-Library=timer_watch
 X-Python-2-Compatible=false
 X-Krita-Manual=timer_watch_manual.html
 Name=Timer Watch
-Comment=Control amount of time spent while working
+Comment=Control amount of time spent working
