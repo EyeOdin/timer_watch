@@ -50,6 +50,9 @@ class TimerWatchDocker(DockWidget):
         self.layout.pushButton_startpause.clicked.connect(self.SW_StartPause)
         self.layout.pushButton_reset.clicked.connect(self.SW_Reset)
 
+        # Default Start UP Tab Display
+        self.layout.setCurrentIndex(0)
+
     # Functions
     def HM_Display(self):
         self.currentTime = QtCore.QTime.currentTime()
