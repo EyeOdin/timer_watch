@@ -18,4 +18,4 @@ Timer Watch is a Krita plugin Time Management Tool.
 ### Support Development
 [paypal](https://www.paypal.com/donate/?hosted_button_id=9FARNUYBC9R3J)
 
-[![paypal](https://user-images.githubusercontent.com/59078314/153782320-36350894-8ff2-457e-8b83-216fa87401c8.png "Donation Link")](https://www.paypal.com/donate/?hosted_button_id=9FARNUYBC9R3J)
+[![paypal](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmarigolds4andrea.com%2Fwp-content%2Fuploads%2F2019%2F02%2Fbutton-donate-paypal-1.png&f=1&nofb=1 "Donation Link")](https://www.paypal.com/donate/?hosted_button_id=9FARNUYBC9R3J)
