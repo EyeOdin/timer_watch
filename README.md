@@ -16,4 +16,4 @@ Timer Watch is a Krita plugin Time Management Tool.
 ![Picture](https://raw.githubusercontent.com/EyeOdin/timer_watch/master/timer_watch/Previews/information.png)
 
 ### Support Development
-[paypal](https://www.paypal.com/paypalme/EyeOdin)
+[paypal](https://www.paypal.com/donate/?hosted_button_id=9FARNUYBC9R3J)
