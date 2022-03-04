@@ -1,4 +1,4 @@
-## Purpose
+# Purpose
 
 Timer Watch is a Krita plugin Time Management Tool.
 
