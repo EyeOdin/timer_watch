@@ -1,19 +1,21 @@
+![Picture](https://github.com/EyeOdin/timer_watch/blob/master/timer_watch/Previews/timer_watch_logo_S.png?raw=true)
+
 ## Purpose
 
-Timer Watch is a Krita plugin Time Management Tool.
+Timer Watch is a Krita plugin and it is Time Management Tool.
+
 
 ## Features
 
-* Show current time (Clock)
-* Track amount of time spent working (Stopwatch)
-* Display progress bar of time spent working towards time goal (Progress Bar)
-* General Information about the document and time spent on it (Information).
+* Clock - Show system current time
+* Stopwatch - Real time spent working to and past time goal
+* Progress Bar - Time spent working towards time goal
 
 
 ## Preview
 ![Picture](https://raw.githubusercontent.com/EyeOdin/timer_watch/master/timer_watch/Previews/clock.png)
 ![Picture](https://raw.githubusercontent.com/EyeOdin/timer_watch/master/timer_watch/Previews/stopwatch.png)
-![Picture](https://raw.githubusercontent.com/EyeOdin/timer_watch/master/timer_watch/Previews/information.png)
+
 
 ## Support
 This project will remain Open source and available to all users.\
