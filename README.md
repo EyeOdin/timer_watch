@@ -10,6 +10,7 @@ Timer Watch is a Krita plugin and it is Time Management Tool.
 * Clock - Show system current time
 * Stopwatch - Real time spent working to and past time goal
 * Progress Bar - Time spent working towards time goal
+* Read wiki for more information
 
 
 ## Preview
