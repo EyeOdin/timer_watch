@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>119</height>
+    <height>108</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,12 +18,12 @@
   </property>
   <property name="font">
    <font>
-    <family>Lucida Console</family>
+    <family>Liberation Mono</family>
    </font>
   </property>
   <layout class="QVBoxLayout" name="imagineboard_settings_layout">
    <property name="spacing">
-    <number>5</number>
+    <number>0</number>
    </property>
    <property name="leftMargin">
     <number>0</number>
@@ -35,10 +35,13 @@
     <number>0</number>
    </property>
    <property name="bottomMargin">
-    <number>5</number>
+    <number>0</number>
    </property>
    <item>
     <widget class="QWidget" name="settings" native="true">
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
      <layout class="QVBoxLayout" name="settings_layout">
       <property name="spacing">
        <number>5</number>
@@ -57,53 +60,25 @@
       </property>
       <item>
        <widget class="QGroupBox" name="group_settings">
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="title">
          <string>SETTINGS</string>
         </property>
-        <layout class="QGridLayout" name="group_settings_layout">
+        <layout class="QGridLayout" name="gridLayout">
          <property name="leftMargin">
-          <number>1</number>
+          <number>10</number>
          </property>
          <property name="topMargin">
           <number>10</number>
          </property>
          <property name="rightMargin">
-          <number>1</number>
+          <number>10</number>
          </property>
          <property name="bottomMargin">
           <number>10</number>
          </property>
-         <property name="spacing">
-          <number>5</number>
-         </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_alarm">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>110</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>110</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>ALARM</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
          <item row="0" column="1">
           <layout class="QHBoxLayout" name="sounds_layout">
            <property name="spacing">
@@ -146,41 +121,41 @@
              </property>
             </widget>
            </item>
-           <item>
-            <widget class="QCheckBox" name="menu_alarm_sound">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>20</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>20</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Sound</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
           </layout>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_alarm">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>100</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="text">
+            <string>ALARM</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
       </item>
       <item>
        <spacer name="vertical_spacer">
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
@@ -196,14 +171,23 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="group_z_layout">
+    <layout class="QHBoxLayout" name="group_footer_layout">
      <property name="spacing">
       <number>0</number>
      </property>
+     <property name="bottomMargin">
+      <number>5</number>
+     </property>
      <item>
       <spacer name="z_spacer">
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -235,6 +219,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Liberation Mono</family>
          <pointsize>7</pointsize>
         </font>
        </property>
@@ -271,6 +256,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Liberation Mono</family>
          <pointsize>7</pointsize>
         </font>
        </property>
