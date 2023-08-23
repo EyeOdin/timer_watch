@@ -362,8 +362,8 @@ class TimerWatch_Docker( DockWidget ):
     def leaveEvent( self, event ):
         self.layout.time_limit.clearFocus()
     def resizeEvent( self, event ):
-        self.Resize_Print( event )
-        # pass
+        # self.Resize_Print( event )
+        pass
     def closeEvent( self, event ):
         self.timer_pulse.stop()
 
