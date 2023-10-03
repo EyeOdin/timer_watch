@@ -1,4 +1,4 @@
-![Picture](https://github.com/EyeOdin/timer_watch/blob/master/timer_watch/LOGO/timer_watch_logo_L.png?raw=true)
+![Picture](https://github.com/EyeOdin/timer_watch/blob/master/timer_watch/LOGO/timer_watch_logo_S.png?raw=true)
 
 ## Purpose
 
