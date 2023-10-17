@@ -92,11 +92,11 @@ class TimerWatch_Docker( DockWidget ):
         self.directory_plugin = str( os.path.dirname( os.path.realpath( __file__ ) ) )
 
         # Widget Docker
-        self.layout = uic.loadUi( os.path.join( self.directory_plugin + "timer_watch_docker.ui" ), QWidget( self ) )
+        self.layout = uic.loadUi( os.path.join( self.directory_plugin, "timer_watch_docker.ui" ), QWidget( self ) )
         self.setWidget( self.layout )
 
         # Settings
-        self.dialog = uic.loadUi( os.path.join( self.directory_plugin + "timer_watch_settings.ui" ), QDialog( self ) )
+        self.dialog = uic.loadUi( os.path.join( self.directory_plugin, "timer_watch_settings.ui" ), QDialog( self ) )
         self.dialog.setWindowTitle( "Timer Watch : Settings" )
     def Connections( self ):
         # Layout
