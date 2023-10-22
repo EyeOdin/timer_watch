@@ -60,25 +60,13 @@ class TimerWatch_Docker( DockWidget ):
         super( TimerWatch_Docker, self ).__init__()
 
         # Construct
-        self.Variables()
         self.User_Interface()
+        self.Variables()
         self.Connections()
         self.Style()
         self.Timer()
         self.Settings()
 
-    def Variables( self ):
-        # UI
-        self.mode_index = 0
-        # Clock
-        self.clock_time = QTime.currentTime()
-        # Stopwatch
-        self.sw_state = False
-        self.sw_counter = QTime( 0,0 )
-        self.sw_alarm = False
-        self.sw_limit = 0
-        # Alarm
-        self.alarm_message = message
     def User_Interface( self ):
         # Window
         self.setWindowTitle( DOCKER_NAME )
@@ -98,6 +86,18 @@ class TimerWatch_Docker( DockWidget ):
         # Settings
         self.dialog = uic.loadUi( os.path.join( self.directory_plugin, "timer_watch_settings.ui" ), QDialog( self ) )
         self.dialog.setWindowTitle( "Timer Watch : Settings" )
+    def Variables( self ):
+        # UI
+        self.mode_index = 0
+        # Clock
+        self.clock_time = QTime.currentTime()
+        # Stopwatch
+        self.sw_state = False
+        self.sw_counter = QTime( 0,0 )
+        self.sw_alarm = False
+        self.sw_limit = 0
+        # Alarm
+        self.alarm_message = message
     def Connections( self ):
         # Layout
         self.layout.start_stop.toggled.connect( self.SW_StartPause )
@@ -136,30 +136,51 @@ class TimerWatch_Docker( DockWidget ):
         self.timer_pulse = QTimer( self )
         self.timer_pulse.timeout.connect( self.Pulse )
     def Settings( self ):
+        #region Variables
+
+        self.mode_index = self.Set_Read( "INT", "mode_index", self.mode_index )
+        self.sw_limit = self.Set_Read( "INT", "sw_limit", self.sw_limit )
+        self.alarm_message = self.Set_Read( "STR", "alarm_message", self.alarm_message )
+
+        #endregion
+        #region Loader
+
+        try:
+            self.Loader()
+        except Exception as e:
+            QMessageBox.information( QWidget(), i18n( "Warnning" ), i18n( f"Timer Watch | Load Error | Reset in Progress\nReason : {e}" ) )
+            self.Variables()
+            self.Loader()
+
+        # endregion
+
+    def Loader( self ):
         # Menu Mode
-        self.Mode_Index( self.Set_Read( "INT", "mode_index", self.mode_index ) )
+        self.Mode_Index( self.mode_index )
 
         # Time Limit
-        tempo = QTime( 0,0,0 ).addSecs( self.Set_Read( "INT", "sw_limit", self.sw_limit ) )
+        tempo = QTime( 0,0,0 ).addSecs( self.sw_limit )
         self.layout.time_limit.setTime( tempo )
         self.SW_TimeEdit()
 
         # Alarm Message
-        self.dialog.menu_alarm_message.setText( self.Set_Read( "STR", "alarm_message", self.alarm_message ) )
-
+        self.dialog.menu_alarm_message.setText( self.alarm_message )
     def Set_Read( self, mode, entry, default ):
         setting = Krita.instance().readSetting( "Timer Watch", entry, "" )
         if setting == "":
             read = default
-            Krita.instance().writeSetting( "Timer Watch", entry, str( default ) )
         else:
-            read = setting
-            if mode == "EVAL":
-                read = eval( read )
-            elif mode == "STR":
-                read = str( read )
-            elif mode == "INT":
-                read = int( read )
+            try:
+                read = setting
+                if mode == "EVAL":
+                    read = eval( read )
+                elif mode == "STR":
+                    read = str( read )
+                elif mode == "INT":
+                    read = int( read )
+            except:
+                read = default
+        Krita.instance().writeSetting( "Timer Watch", entry, str( default ) )
         return read
 
     #endregion
