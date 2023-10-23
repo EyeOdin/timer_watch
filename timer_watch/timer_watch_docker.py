@@ -48,7 +48,6 @@ photoshoot = False
 #endregion
 
 
-# Docker Class
 class TimerWatch_Docker( DockWidget ):
     """
     Time management
@@ -170,16 +169,15 @@ class TimerWatch_Docker( DockWidget ):
             read = default
         else:
             try:
-                read = setting
                 if mode == "EVAL":
-                    read = eval( read )
+                    read = eval( setting )
                 elif mode == "STR":
-                    read = str( read )
+                    read = str( setting )
                 elif mode == "INT":
-                    read = int( read )
+                    read = int( setting )
             except:
                 read = default
-        Krita.instance().writeSetting( "Timer Watch", entry, str( default ) )
+        Krita.instance().writeSetting( "Timer Watch", entry, str( read ) )
         return read
 
     #endregion
