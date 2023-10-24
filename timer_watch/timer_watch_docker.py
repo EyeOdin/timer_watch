@@ -146,7 +146,8 @@ class TimerWatch_Docker( DockWidget ):
 
         try:
             self.Loader()
-        except:
+        except Exception as e:
+            QMessageBox.information( QWidget(), i18n( "Warnning" ), i18n( f"Timer Watch | ERROR Load failed\nReason : {e}" ) )
             self.Variables()
             self.Loader()
 
