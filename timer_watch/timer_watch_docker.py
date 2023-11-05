@@ -248,7 +248,9 @@ class TimerWatch_Docker( DockWidget ):
         w2 = qmw.width() * 0.5
         h2 = qmw.height() * 0.5
         size = 500
-        self.dialog.setGeometry( int( px + w2 - size * 0.5 ), int( py + h2 - size * 0.5 ), int( size ), int( size ) )
+        pw = 500
+        ph = 100
+        self.dialog.setGeometry( int( px + w2 - pw * 0.5 ), int( py + h2 - ph * 0.5 ), int( pw ), int( ph ) )
     def Menu_Manual( self ):
         url = "https://github.com/EyeOdin/timer_watch/wiki"
         webbrowser.open_new( url )

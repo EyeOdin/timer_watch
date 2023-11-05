@@ -28,7 +28,7 @@ __email__ = ' jeremy6321478@gmail.com '
 __url__ = ' https://github.com/EyeOdin '
 
 # Name the Python Script for the program
-DOCKER_ID = "pykrita_timer_watch"
+DOCKER_ID = "pykrita_timer_watch_docker"
 
 # Register the docker so Krita can use it!
 Application.addDockWidgetFactory( DockWidgetFactory(DOCKER_ID, DockWidgetFactoryBase.DockRight, TimerWatch_Docker) )
