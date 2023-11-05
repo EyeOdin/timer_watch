@@ -237,16 +237,18 @@ class TimerWatch_Docker( DockWidget ):
                 new_index = self.Limit_Range( self.mode_index + value, 0, 1 )
                 if self.mode_index != new_index:
                     self.Mode_Index( new_index )
+
     def Menu_Settings( self ):
         # Display
         self.dialog.show()
         # Resize Geometry
-        screen_zero = QtWidgets.QDesktopWidget().screenGeometry( 0 ) # Size of monitor zero 0
-        width = screen_zero.width()
-        height = screen_zero.height()
-        sw = 500
-        sh = 108
-        self.dialog.setGeometry( int( width * 0.5 - sw * 0.5 ), int( height * 0.5 - sh * 0.5 ), sw, sh )
+        qmw = Krita.instance().activeWindow().qwindow()
+        px = qmw.x()
+        py = qmw.y()
+        w2 = qmw.width() * 0.5
+        h2 = qmw.height() * 0.5
+        size = 500
+        self.dialog.setGeometry( int( px + w2 - size * 0.5 ), int( py + h2 - size * 0.5 ), int( size ), int( size ) )
     def Menu_Manual( self ):
         url = "https://github.com/EyeOdin/timer_watch/wiki"
         webbrowser.open_new( url )
