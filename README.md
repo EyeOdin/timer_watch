@@ -1,20 +1,21 @@
-![Picture](https://github.com/EyeOdin/timer_watch/blob/master/timer_watch/LOGO/timer_watch_logo_S.png?raw=true)
+![Picture](https://github.com/EyeOdin/timer_watch/blob/master/timer_watch/LOGO/timer_watch_logo_S.png?raw=false)
 
 ## Purpose
 
-Timer Watch is a Krita plugin and it is Time Management Tool.
-
+Timer Watch is a Krita plugin and is a Time Management Tool.
 
 ## Features
 * Clock
 * Stopwatch
 * Progress Bar
+* Pause
+* Alarm
 * Read ![wiki](https://github.com/EyeOdin/timer_watch/wiki) for more information
 
 
 ## Preview
-![Picture](https://raw.githubusercontent.com/EyeOdin/timer_watch/master/timer_watch/PREVIEWS/clock.png)
-![Picture](https://raw.githubusercontent.com/EyeOdin/timer_watch/master/timer_watch/PREVIEWS/stopwatch.png)
+![Picture](https://raw.githubusercontent.com/EyeOdin/timer_watch/master/timer_watch/PREVIEWS/tw_clock.png)
+![Picture](https://raw.githubusercontent.com/EyeOdin/timer_watch/master/timer_watch/PREVIEWS/tw_stopwatch.png)
 
 
 ## Support
