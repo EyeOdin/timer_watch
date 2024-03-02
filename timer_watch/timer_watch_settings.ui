@@ -16,11 +16,6 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="font">
-   <font>
-    <family>Liberation Mono</family>
-   </font>
-  </property>
   <layout class="QVBoxLayout" name="imagineboard_settings_layout">
    <property name="spacing">
     <number>0</number>
@@ -64,7 +59,7 @@
          <enum>Qt::NoFocus</enum>
         </property>
         <property name="title">
-         <string>SETTINGS</string>
+         <string>Settings</string>
         </property>
         <layout class="QGridLayout" name="gridLayout">
          <property name="leftMargin">
@@ -141,7 +136,7 @@
             <enum>Qt::NoFocus</enum>
            </property>
            <property name="text">
-            <string>ALARM</string>
+            <string>Alarm</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -219,7 +214,6 @@
        </property>
        <property name="font">
         <font>
-         <family>Liberation Mono</family>
          <pointsize>7</pointsize>
         </font>
        </property>
@@ -256,7 +250,6 @@
        </property>
        <property name="font">
         <font>
-         <family>Liberation Mono</family>
          <pointsize>7</pointsize>
         </font>
        </property>

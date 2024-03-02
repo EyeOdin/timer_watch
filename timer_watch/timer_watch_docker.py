@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#region Import Krita ###############################################################
+#region Import Krita
 
 # Python Modules
 import os.path
@@ -30,11 +30,11 @@ from PyQt5 import QtWidgets, QtCore, QtGui, uic
 from PyQt5.QtCore import QUrl
 
 #endregion
-#region Global Variables ###########################################################
+#region Global Variables
 
 # Plugin
 DOCKER_NAME = 'Timer Watch'
-timer_watch_version = "2023_08_22"
+timer_watch_version = "2024_03_02"
 message = "Time is Over"
 
 # time constants
@@ -49,11 +49,8 @@ photoshoot = False
 
 
 class TimerWatch_Docker( DockWidget ):
-    """
-    Time management
-    """
 
-    #region Initialize #############################################################
+    #region Initialize
 
     def __init__( self ):
         super( TimerWatch_Docker, self ).__init__()
@@ -65,6 +62,7 @@ class TimerWatch_Docker( DockWidget ):
         self.Style()
         self.Timer()
         self.Settings()
+        self.Plugin_Load()
 
     def User_Interface( self ):
         # Window
@@ -99,7 +97,7 @@ class TimerWatch_Docker( DockWidget ):
         self.alarm_message = message
     def Connections( self ):
         # Layout
-        self.layout.start_stop.toggled.connect( self.SW_StartPause )
+        self.layout.start_pause.toggled.connect( self.SW_StartPause )
         self.layout.reset.clicked.connect( self.SW_Reset )
         self.layout.alarm.clicked.connect( self.SW_Alarm )
         self.layout.time_limit.timeChanged.connect( self.SW_TimeEdit )
@@ -115,13 +113,13 @@ class TimerWatch_Docker( DockWidget ):
         self.layout.lcd_number.installEventFilter( self )
     def Style( self ):
         # Icons
-        self.layout.start_stop.setIcon( Krita.instance().icon( 'media-playback-start' ) ) # media-playback-stop
+        self.layout.start_pause.setIcon( Krita.instance().icon( 'media-playback-start' ) ) # media-playback-stop
         self.layout.reset.setIcon( Krita.instance().icon( 'fileLayer' ) )
         self.layout.alarm.setIcon( Krita.instance().icon( 'paintbrush' ) )
         self.layout.settings.setIcon( Krita.instance().icon( 'settings-button' ) )
 
         # ToolTips
-        self.layout.start_stop.setToolTip( "Start" )
+        self.layout.start_pause.setToolTip( "Start" )
         self.layout.reset.setToolTip( "Reset" )
         self.layout.alarm.setToolTip( "Alarm" )
         self.layout.time_limit.setToolTip( "Time Limit" )
@@ -135,23 +133,16 @@ class TimerWatch_Docker( DockWidget ):
         self.timer_pulse = QTimer( self )
         self.timer_pulse.timeout.connect( self.Pulse )
     def Settings( self ):
-        #region Variables
-
         self.mode_index = self.Set_Read( "INT", "mode_index", self.mode_index )
         self.sw_limit = self.Set_Read( "INT", "sw_limit", self.sw_limit )
         self.alarm_message = self.Set_Read( "STR", "alarm_message", self.alarm_message )
-
-        #endregion
-        #region Loader
-
+    def Plugin_Load( self ):
         try:
             self.Loader()
         except Exception as e:
-            QMessageBox.information( QWidget(), i18n( "Warnning" ), i18n( f"Timer Watch | ERROR Load failed\nReason : {e}" ) )
+            self.Message_Warnning( "ERROR", f"Load\n{ e }" )
             self.Variables()
             self.Loader()
-
-        # endregion
 
     def Loader( self ):
         # Menu Mode
@@ -182,7 +173,7 @@ class TimerWatch_Docker( DockWidget ):
         return read
 
     #endregion
-    #region Menu Signals ###########################################################
+    #region Menu Signals
 
     def Mode_Index( self, index ):
         # Clock
@@ -258,7 +249,19 @@ class TimerWatch_Docker( DockWidget ):
         webbrowser.open_new( url )
 
     #endregion
-    #region Management #############################################################
+    #region Management
+
+    def Message_Log( self, operation, message ):
+        string = f"Timer Watch | { operation } { message }"
+        try:QtCore.qDebug( string )
+        except:pass
+    def Message_Warnning( self, operation, message ):
+        string = f"Timer Watch | { operation } { message }"
+        QMessageBox.information( QWidget(), i18n( "Warnning" ), i18n( string ) )
+    def Message_Float( self, operation, message, icon ):
+        ki = Krita.instance()
+        string = f"Timer Watch | { operation } { message }"
+        ki.activeWindow().activeView().showFloatingMessage( string, ki.icon( icon ), 5000, 0 )
 
     def Limit_Range( self, value, minimum, maximum ):
         if value <= minimum:
@@ -274,7 +277,7 @@ class TimerWatch_Docker( DockWidget ):
         QtCore.qDebug( "size = " + str( width ) + " x "  + str( height ) )
 
     #endregion
-    #region Time ###################################################################
+    #region Time
 
     def Pulse( self ):
         # Timers
@@ -291,7 +294,7 @@ class TimerWatch_Docker( DockWidget ):
             self.layout.lcd_number.display( str( self.sw_counter.toString( 'hh:mm:ss' ) ) )
 
     #endregion
-    #region Stopwatch ##############################################################
+    #region Stopwatch
 
     def SW_Pulse( self ):
         if self.sw_state == True:
@@ -319,17 +322,17 @@ class TimerWatch_Docker( DockWidget ):
         self.layout.progress_bar.setValue( counter )
         # Alarm
         if ( self.sw_alarm == True and counter == self.sw_limit and counter != 0 and self.sw_limit != 0 ):
-            self.Alarm_Warnning()
+            self.Message_Warnning( "MESSAGE", f"\n{ self.alarm_message }" )
     def SW_StartPause( self, boolean ):
         # Variable
         self.sw_state = boolean
         # UI
         if boolean == True:
-            self.layout.start_stop.setIcon( Krita.instance().icon( 'media-playback-stop' ) )
-            self.layout.start_stop.setToolTip( "Stop" )
+            self.layout.start_pause.setIcon( Krita.instance().icon( 'media-playback-stop' ) )
+            self.layout.start_pause.setToolTip( "Pause" )
         else:
-            self.layout.start_stop.setIcon( Krita.instance().icon( 'media-playback-start' ) )
-            self.layout.start_stop.setToolTip( "Start" )
+            self.layout.start_pause.setIcon( Krita.instance().icon( 'media-playback-start' ) )
+            self.layout.start_pause.setToolTip( "Start" )
         self.Widget_Enable( False )
         self.Number_Display()
     def SW_Reset( self ):
@@ -337,9 +340,9 @@ class TimerWatch_Docker( DockWidget ):
         self.sw_state = False
         self.sw_counter.setHMS( 0,0,0,0 )
         # UI
-        self.layout.start_stop.setIcon( Krita.instance().icon( 'media-playback-start' ) )
-        self.layout.start_stop.setToolTip( "Start" )
-        self.layout.start_stop.setChecked( False )
+        self.layout.start_pause.setIcon( Krita.instance().icon( 'media-playback-start' ) )
+        self.layout.start_pause.setToolTip( "Start" )
+        self.layout.start_pause.setChecked( False )
         self.Widget_Enable( True )
         self.Number_Display()
     def SW_Alarm( self, boolean ):
@@ -370,11 +373,8 @@ class TimerWatch_Docker( DockWidget ):
         time = hs + ms + s
         return time
 
-    def Alarm_Warnning( self ):
-        QMessageBox.information( QWidget(), i18n( "Warnning" ), i18n( self.alarm_message ) )
-
     #endregion
-    #region Widget Events ##########################################################
+    #region Widget Events
 
     def showEvent( self, event ):
         self.timer_pulse.start( 1000 )
@@ -401,14 +401,11 @@ class TimerWatch_Docker( DockWidget ):
 
         return super().eventFilter( source, event )
 
-    #endregion
-    #region Change Canvas ##########################################################
-
     def canvasChanged( self, canvas ):
         pass
 
     #endregion
-    #region Notes ##################################################################
+    #region Notes
 
     """
     # Label Message
