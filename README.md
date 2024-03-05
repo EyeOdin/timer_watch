@@ -1,7 +1,5 @@
 ![Picture](https://raw.githubusercontent.com/EyeOdin/timer_watch/master/timer_watch/LOGO/timer_watch_logo_S.png)
 
-[tw_swap.webm](https://github.com/EyeOdin/timer_watch/assets/59078314/b914f8c6-fb55-47f4-84f7-e87d7ee1ae34)
-
 # Purpose
 
 Timer Watch is a Krita plugin and is a Time Management Tool.
