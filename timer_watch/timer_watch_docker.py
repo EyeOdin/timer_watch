@@ -33,15 +33,15 @@ from PyQt5.QtCore import QUrl
 #region Global Variables
 
 # Plugin
-DOCKER_NAME = 'Timer Watch'
-timer_watch_version = "2024_03_02"
-message = "Time is Over"
+DOCKER_NAME = "Timer Watch"
+version = "2026_01_01"
 
+# Message
+message = "Time is Over"
 # time constants
 horas = 24
 minutos = 60
 segundos = 60
-
 # Photoshoot
 photoshoot = False
 
@@ -59,6 +59,7 @@ class TimerWatch_Docker( DockWidget ):
         self.User_Interface()
         self.Variables()
         self.Connections()
+        self.Modules()
         self.Style()
         self.Timer()
         self.Settings()
@@ -82,7 +83,7 @@ class TimerWatch_Docker( DockWidget ):
 
         # Settings
         self.dialog = uic.loadUi( os.path.join( self.directory_plugin, "timer_watch_settings.ui" ), QDialog( self ) )
-        self.dialog.setWindowTitle( "Timer Watch : Settings" )
+        self.dialog.setWindowTitle( f"{ DOCKER_NAME } : Settings" )
     def Variables( self ):
         # UI
         self.mode_index = 0
@@ -111,6 +112,9 @@ class TimerWatch_Docker( DockWidget ):
         # Event Filter
         self.layout.mode.installEventFilter( self )
         self.layout.lcd_number.installEventFilter( self )
+    def Modules( self ):
+        self.notifier = Krita.instance().notifier()
+        self.notifier.windowCreated.connect( self.Window_Created )
     def Style( self ):
         # Icons
         self.layout.start_pause.setIcon( Krita.instance().icon( 'media-playback-start' ) ) # media-playback-stop
@@ -125,10 +129,8 @@ class TimerWatch_Docker( DockWidget ):
         self.layout.time_limit.setToolTip( "Time Limit" )
         self.layout.settings.setToolTip( "Settings" )
 
-        # StyleSheets
-        self.layout.lcd_number.setStyleSheet( "#lcd_number{background-color: rgba( 0, 0, 0, 50 );}" )
-        self.layout.progress_bar.setStyleSheet( "#progress_bar{background-color: rgba( 0, 0, 0, 50 );}" )
-        self.dialog.settings.setStyleSheet( "#settings{background-color: rgba( 0, 0, 0, 20 );}" )
+        # Start Position
+        self.Theme_Changed()
     def Timer( self ):
         self.timer_pulse = QTimer( self )
         self.timer_pulse.timeout.connect( self.Pulse )
@@ -156,7 +158,7 @@ class TimerWatch_Docker( DockWidget ):
         # Alarm Message
         self.dialog.menu_alarm_message.setText( self.alarm_message )
     def Set_Read( self, mode, entry, default ):
-        setting = Krita.instance().readSetting( "Timer Watch", entry, "" )
+        setting = Krita.instance().readSetting( DOCKER_NAME, entry, "" )
         if setting == "":
             read = default
         else:
@@ -167,9 +169,11 @@ class TimerWatch_Docker( DockWidget ):
                     read = str( setting )
                 elif mode == "INT":
                     read = int( setting )
+                elif mode == "LIST":
+                    read = list( setting )
             except:
                 read = default
-        Krita.instance().writeSetting( "Timer Watch", entry, str( read ) )
+        Krita.instance().writeSetting( DOCKER_NAME, entry, str( read ) )
         return read
 
     #endregion
@@ -189,7 +193,7 @@ class TimerWatch_Docker( DockWidget ):
             self.Number_Display()
             self.SW_ProgressBar()
         # Save
-        Krita.instance().writeSetting( "Timer Watch", "mode_index", str( self.mode_index ) )
+        Krita.instance().writeSetting( DOCKER_NAME, "mode_index", str( self.mode_index ) )
 
     def Menu_Message( self, string ):
         if string == "":
@@ -197,23 +201,23 @@ class TimerWatch_Docker( DockWidget ):
         else:
             self.alarm_message = string
         # Save
-        Krita.instance().writeSetting( "Timer Watch", "alarm_message", str( self.alarm_message ) )
+        Krita.instance().writeSetting( DOCKER_NAME, "alarm_message", str( self.alarm_message ) )
     def Menu_Mode_Press( self, event ):
         # Menu
-        cmenu = QMenu( self )
+        qmenu = QMenu( self )
         # Actions
-        cmenu_clock = cmenu.addAction( "Clock" )
-        cmenu_stopwatch = cmenu.addAction( "Stopwatch" )
+        qmenu_clock = qmenu.addAction( "Clock" )
+        qmenu_stopwatch = qmenu.addAction( "Stopwatch" )
 
         # Execute
         geo = self.layout.mode.geometry()
         qpoint = geo.bottomLeft()
         position = self.layout.footer_widget.mapToGlobal( qpoint )
-        action = cmenu.exec_( position )
+        action = qmenu.exec_( position )
         # Triggers
-        if action == cmenu_clock:
+        if action == qmenu_clock:
             self.Mode_Index( 0 )
-        elif action == cmenu_stopwatch:
+        elif action == qmenu_stopwatch:
             self.Mode_Index( 1 )
     def Menu_Mode_Wheel( self, event ):
         delta = event.angleDelta()
@@ -252,15 +256,15 @@ class TimerWatch_Docker( DockWidget ):
     #region Management
 
     def Message_Log( self, operation, message ):
-        string = f"Timer Watch | { operation } { message }"
+        string = f"{ DOCKER_NAME } | { operation } { message }"
         try:QtCore.qDebug( string )
         except:pass
     def Message_Warnning( self, operation, message ):
-        string = f"Timer Watch | { operation } { message }"
+        string = f"{ DOCKER_NAME } | { operation } { message }"
         QMessageBox.information( QWidget(), i18n( "Warnning" ), i18n( string ) )
     def Message_Float( self, operation, message, icon ):
         ki = Krita.instance()
-        string = f"Timer Watch | { operation } { message }"
+        string = f"{ DOCKER_NAME } | { operation } { message }"
         ki.activeWindow().activeView().showFloatingMessage( string, ki.icon( icon ), 5000, 0 )
 
     def Limit_Range( self, value, minimum, maximum ):
@@ -269,6 +273,12 @@ class TimerWatch_Docker( DockWidget ):
         if value >= maximum:
             value = maximum
         return value
+
+    def ProgressBar_StyleSheet( self, percentage, background ):
+        style_sheet = str()
+        style_sheet += "QProgressBar { background-color: " + background + "; border-radius: 0px; }"
+        style_sheet += "QProgressBar::chunk { background-color: " + percentage + "; }"
+        self.layout.progress_bar.setStyleSheet( style_sheet )
 
     def Resize_Print( self, event ):
         # Used doing a photoshoot
@@ -288,10 +298,10 @@ class TimerWatch_Docker( DockWidget ):
         self.SW_ProgressBar()
     def Number_Display( self ):
         if self.mode_index == 0:
-            if photoshoot == True:self.layout.lcd_number.display( str( '00:00' ) ) # for preview photo
-            else:self.layout.lcd_number.display( str( self.clock_time.toString( 'hh:mm' ) ) )
-        if self.mode_index == 1:
-            self.layout.lcd_number.display( str( self.sw_counter.toString( 'hh:mm:ss' ) ) )
+            if photoshoot == True:  string = str( '00:00' ) # for preview photo
+            else:                   string = str( self.clock_time.toString( 'hh:mm' ) )
+        if self.mode_index == 1:    string = str( self.sw_counter.toString( 'hh:mm:ss' ) )
+        self.layout.lcd_number.display( string )
 
     #endregion
     #region Stopwatch
@@ -357,7 +367,7 @@ class TimerWatch_Docker( DockWidget ):
         self.sw_limit = self.hms_to_time( qtime.hour(), qtime.minute(), qtime.second() )
         self.layout.progress_bar.setMaximum( self.sw_limit )
         # Save
-        Krita.instance().writeSetting( "Timer Watch", "sw_limit", str( self.sw_limit ) )
+        Krita.instance().writeSetting( DOCKER_NAME, "sw_limit", str( self.sw_limit ) )
 
     def Widget_Enable( self, boolean ):
         self.layout.alarm.setEnabled( boolean )
@@ -372,6 +382,79 @@ class TimerWatch_Docker( DockWidget ):
         # Total
         time = hs + ms + s
         return time
+
+    #endregion
+    #region Notifier
+
+    # Notifier
+    def Window_Created( self ):
+        # Module
+        self.window = Krita.instance().activeWindow()
+        # Signals
+        self.window.activeViewChanged.connect( self.View_Changed )
+        self.window.themeChanged.connect( self.Theme_Changed )
+        self.window.windowClosed.connect( self.Window_Closed )
+
+    def View_Changed( self ):
+        pass
+    def Theme_Changed( self ):
+        """
+        Theme Breeze Dark
+        alternateBase = #31363b
+        base = #232629
+        brightText = #ffffff
+        button = #31363b
+        buttonText = #eff0f1
+        dark = #1d2023
+        highlight = #3daee9
+        highlightedText = #eff0f1
+        light = #464d54
+        link = #2980b9
+        linkVisited = #7f8c8d
+        mid = #2b3034
+        midlight = #3c4248
+        placeholderText = #eff0f1
+        shadow = #151719
+        text = #eff0f1
+        toolTipBase = #31363b
+        toolTipText = #eff0f1
+        window = #31363b
+        windowText = #eff0f1
+        """
+        # Read
+        palette = QApplication.palette()
+        # Theme Colors
+        # Window ( Dark )
+        w_alternate   = palette.alternateBase().color().name()
+        w_base        = palette.base().color().name()
+        w_button      = palette.button().color().name()
+        w_dark        = palette.dark().color().name()
+        w_light       = palette.light().color().name()
+        w_mid         = palette.mid().color().name()
+        w_midlight    = palette.midlight().color().name()
+        w_shadow      = palette.shadow().color().name()
+        w_tool_tip    = palette.toolTipBase().color().name()
+        w_window      = palette.window().color().name()
+        # Text ( Bright )
+        t_bright      = palette.brightText().color().name()
+        t_button      = palette.buttonText().color().name()
+        t_highlighted = palette.highlightedText().color().name()
+        t_placeholder = palette.placeholderText().color().name()
+        t_text        = palette.text().color().name()
+        t_tool_tip    = palette.toolTipText().color().name()
+        t_window      = palette.windowText().color().name()
+        # Color
+        c_highlight   = palette.highlight().color().name()
+        c_link        = palette.link().color().name()
+        c_visited     = palette.linkVisited().color().name()
+        # c_accent      = palette.accent().color().name() # qt6
+
+        # StyleSheets
+        self.layout.lcd_number.setStyleSheet( "#lcd_number{background-color: " + w_base + ";}" )
+        self.ProgressBar_StyleSheet( c_highlight, w_base )
+        self.dialog.settings.setStyleSheet( "#settings{background-color: " + w_mid + ";}" )
+    def Window_Closed( self ):
+        pass
 
     #endregion
     #region Widget Events
@@ -415,7 +498,7 @@ class TimerWatch_Docker( DockWidget ):
     QMessageBox.information( QWidget(), i18n( "Warnning" ), i18n( "message" ) )
 
     # Log Viewer Message
-    QtCore.qDebug( "value = " + str( value ) )
+    QtCore.qDebug( f"value = { value }" )
     QtCore.qDebug( "message" )
     QtCore.qWarning( "message" )
     QtCore.qCritical( "message" )

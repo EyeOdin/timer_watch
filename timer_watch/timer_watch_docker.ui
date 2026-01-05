@@ -380,6 +380,13 @@
               <property name="displayFormat">
                <string>HH:mm:ss</string>
               </property>
+              <property name="time">
+               <time>
+                <hour>0</hour>
+                <minute>0</minute>
+                <second>0</second>
+               </time>
+              </property>
              </widget>
             </item>
            </layout>
